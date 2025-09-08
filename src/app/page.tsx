@@ -52,7 +52,7 @@ export default async function DirectoryPage({
   return (
     <div className="container mx-auto p-4 md:p-8">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold tracking-tight">Alumni Network</h1>
+        <h1 className="text-4xl font-bold tracking-tight">GradLink</h1>
         <p className="text-lg text-gray-600 mt-2">Discover and connect with peers from our community.</p>
       </div>
 
