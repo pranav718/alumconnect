@@ -1,66 +1,82 @@
-import { getFilteredAlumni } from "@/lib/data";
-import { FilterBar } from "@/components/FilterBar";
-import { AlumniCard } from "@/components/AlumniCard";
-import { Suspense } from 'react';
+// app/page.tsx
+import { getHomepageStats } from '@/lib/data'
+import Link from 'next/link'
+import { Users, Building2, MapPin, ArrowRight } from 'lucide-react'
 
-// A separate component for the results to use with Suspense
-async function AlumniResults({ search, batch }: { search: string; batch: string; }) {
-  const batchNumber = batch ? Number(batch) : undefined;
-  const { alumni, error } = await getFilteredAlumni({ search, batch: batchNumber });
-
-  if (error) {
-    return <p className="text-center text-red-500 mt-8">Could not load alumni data. Please try again later.</p>;
-  }
-
-  if (alumni.length === 0) {
-    return <p className="text-center text-gray-500 mt-8">No alumni found matching your criteria.</p>;
-  }
-
+export default async function HomePage() {
+  const stats = await getHomepageStats()
+  
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-      {alumni.map(person => (
-        <AlumniCard key={person.id} alumnus={person} />
-      ))}
-    </div>
-  );
-}
-
-// A simple loading skeleton component
-function LoadingSkeleton() {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-      {Array.from({ length: 6 }).map((_, i) => (
-        <div key={i} className="bg-white border border-gray-200 rounded-lg p-5 shadow-sm">
-          <div className="h-6 bg-gray-200 rounded w-3/4 mb-2 animate-pulse"></div>
-          <div className="h-4 bg-gray-200 rounded w-1/4 mb-4 animate-pulse"></div>
-          <div className="h-4 bg-gray-200 rounded w-full mb-2 animate-pulse"></div>
-          <div className="h-4 bg-gray-200 rounded w-5/6 animate-pulse"></div>
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+      {/* Hero Section */}
+      <div className="max-w-7xl mx-auto px-4 pt-20 pb-16">
+        <div className="text-center">
+          <h1 className="text-5xl font-bold text-gray-900 mb-6">
+            Welcome to AlumConnect
+          </h1>
+          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Connect with alumni, explore career paths, and build your professional network
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Link
+              href="/directory"
+              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 flex items-center gap-2"
+            >
+              Explore Directory <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/map"
+              className="border border-blue-600 text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-50 flex items-center gap-2"
+            >
+              View Global Map
+            </Link>
+          </div>
         </div>
-      ))}
-    </div>
-  );
-}
 
-export default async function DirectoryPage({
-  searchParams,
-}: {
-  searchParams?: { search?: string; batch?: string; };
-}) {
-  const search = searchParams?.search || '';
-  const batch = searchParams?.batch || '';
-
-  return (
-    <div className="container mx-auto p-4 md:p-8">
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold tracking-tight">GradLink</h1>
-        <p className="text-lg text-gray-600 mt-2">Discover and connect with peers from our community.</p>
       </div>
 
-      <FilterBar />
+      {/* Stats Section */}
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="bg-white rounded-xl shadow-lg p-8 text-center">
+            <Users className="w-12 h-12 text-blue-600 mx-auto mb-4" />
+            <h3 className="text-3xl font-bold text-gray-900">{stats.totalAlumni}</h3>
+            <p className="text-gray-600 mt-2">Alumni in Network</p>
+          </div>
+          <div className="bg-white rounded-xl shadow-lg p-8 text-center">
+            <Building2 className="w-12 h-12 text-green-600 mx-auto mb-4" />
+            <h3 className="text-3xl font-bold text-gray-900">{stats.totalCompanies}</h3>
+            <p className="text-gray-600 mt-2">Companies Represented</p>
+          </div>
+          <div className="bg-white rounded-xl shadow-lg p-8 text-center">
+            <MapPin className="w-12 h-12 text-purple-600 mx-auto mb-4" />
+            <h3 className="text-3xl font-bold text-gray-900">{stats.totalLocations}</h3>
+            <p className="text-gray-600 mt-2">Global Locations</p>
+          </div>
+        </div>
+      </div>
 
-      <Suspense key={search + batch} fallback={<LoadingSkeleton />}>
-        <AlumniResults search={search} batch={batch} />
-      </Suspense>
+      {/* Features Section */}
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        <h2 className="text-3xl font-bold text-center mb-12">Platform Features</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            { title: 'Alumni Directory', desc: 'Search and filter alumni by batch, company, or location', link: '/directory' },
+            { title: 'Interactive Map', desc: 'Visualize where alumni are located globally', link: '/map' },
+            { title: 'Career Timeline', desc: 'Track career progression and company trends', link: '/timeline' },
+            { title: 'Data Export', desc: 'Export alumni data for analysis and reporting', link: '/export' }
+          ].map((feature) => (
+            <Link
+              key={feature.title}
+              href={feature.link}
+              className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+            >
+              <h3 className="font-semibold text-lg mb-2">{feature.title}</h3>
+              <p className="text-gray-600 text-sm">{feature.desc}</p>
+            </Link>
+          ))}
+        </div>
+      </div>
     </div>
-  );
+  )
 }
