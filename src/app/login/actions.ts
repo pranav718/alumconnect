@@ -1,31 +1,32 @@
-'use server';
+// /app/login/actions.ts (simplified for demo)
+'use server'
 
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 export async function signIn(formData: FormData) {
-  const email = String(formData.get('email'));
-  const password = String(formData.get('password'));
-  const supabase = createServerActionClient({ cookies });
-
-  const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
-
-  if (error) {
-    console.error('Sign in error:', error);
-    // Redirect back to the login page with an error message
-    return redirect('/login?message=Could not authenticate user');
+  const email = formData.get('email') as string
+  const password = formData.get('password') as string
+  
+  // Mock authentication for demo
+  if (email === 'admin@alumconnect.com' && password === 'admin123') {
+    const cookieStore = await cookies()
+    cookieStore.set('user-role', 'admin')
+    cookieStore.set('user-email', email)
+    redirect('/admin')
+  } else if (email === 'user@alumconnect.com' && password === 'user123') {
+    const cookieStore = await cookies()
+    cookieStore.set('user-role', 'user')
+    cookieStore.set('user-email', email)
+    redirect('/directory')
+  } else {
+    redirect('/login?message=Invalid credentials')
   }
-
-  // On success, redirect to the main directory
-  return redirect('/directory');
 }
 
 export async function signOut() {
-  const supabase = createServerActionClient({ cookies });
-  await supabase.auth.signOut();
-  return redirect('/login');
+  const cookieStore = await cookies()
+  cookieStore.delete('user-role')
+  cookieStore.delete('user-email')
+  redirect('/login')
 }
