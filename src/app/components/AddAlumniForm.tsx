@@ -13,6 +13,7 @@ interface AddAlumniFormProps {
 export default function AddAlumniForm({ onClose }: AddAlumniFormProps) {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,19 +29,49 @@ export default function AddAlumniForm({ onClose }: AddAlumniFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setError(null)
 
     try {
-      const { error } = await supabase
+      // Prepare data - only include non-empty fields
+      const dataToInsert: any = {
+        name: formData.name,
+        email: formData.email,
+        batch: formData.batch,
+        created_at: new Date().toISOString()
+      }
+
+      // Add optional fields only if they have values
+      if (formData.degree) dataToInsert.degree = formData.degree
+      if (formData.job_title) dataToInsert.job_title = formData.job_title
+      if (formData.company) dataToInsert.company = formData.company
+      if (formData.location) dataToInsert.location = formData.location
+      if (formData.bio) dataToInsert.bio = formData.bio
+      if (formData.linkedin_url) dataToInsert.linkedin_url = formData.linkedin_url
+
+      console.log('Attempting to insert:', dataToInsert)
+
+      const { data, error: insertError } = await supabase
         .from('alumni')
-        .insert([formData])
+        .insert([dataToInsert])
+        .select()
 
-      if (error) throw error
+      if (insertError) {
+        console.error('Supabase error:', insertError)
+        throw new Error(insertError.message || 'Failed to add alumni')
+      }
 
+      console.log('Successfully added:', data)
+      
+      // Success - refresh and close
       router.refresh()
       onClose()
-    } catch (error) {
-      console.error('Error adding alumni:', error)
-      alert('Failed to add alumni')
+      
+      // Optional: Show success message
+      alert('Alumni added successfully!')
+      
+    } catch (err) {
+      console.error('Error adding alumni:', err)
+      setError(err instanceof Error ? err.message : 'Failed to add alumni. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -67,6 +98,12 @@ export default function AddAlumniForm({ onClose }: AddAlumniFormProps) {
           </button>
         </div>
 
+        {error && (
+          <div className="mx-6 mt-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+            <p className="text-sm">{error}</p>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -80,6 +117,7 @@ export default function AddAlumniForm({ onClose }: AddAlumniFormProps) {
                 value={formData.name}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="John Doe"
               />
             </div>
 
@@ -94,6 +132,7 @@ export default function AddAlumniForm({ onClose }: AddAlumniFormProps) {
                 value={formData.email}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="john.doe@example.com"
               />
             </div>
 
@@ -130,6 +169,8 @@ export default function AddAlumniForm({ onClose }: AddAlumniFormProps) {
                 <option value="PhD">PhD</option>
                 <option value="B.Sc">B.Sc</option>
                 <option value="M.Sc">M.Sc</option>
+                <option value="BCA">BCA</option>
+                <option value="MCA">MCA</option>
                 <option value="Other">Other</option>
               </select>
             </div>
@@ -144,6 +185,7 @@ export default function AddAlumniForm({ onClose }: AddAlumniFormProps) {
                 value={formData.job_title}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Software Engineer"
               />
             </div>
 
@@ -157,6 +199,7 @@ export default function AddAlumniForm({ onClose }: AddAlumniFormProps) {
                 value={formData.company}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Google"
               />
             </div>
 
@@ -169,7 +212,7 @@ export default function AddAlumniForm({ onClose }: AddAlumniFormProps) {
                 name="location"
                 value={formData.location}
                 onChange={handleChange}
-                placeholder="e.g., Bangalore, Mumbai"
+                placeholder="Bangalore"
                 className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -183,7 +226,7 @@ export default function AddAlumniForm({ onClose }: AddAlumniFormProps) {
                 name="linkedin_url"
                 value={formData.linkedin_url}
                 onChange={handleChange}
-                placeholder="https://linkedin.com/in/..."
+                placeholder="https://linkedin.com/in/johndoe"
                 className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
@@ -224,7 +267,8 @@ export default function AddAlumniForm({ onClose }: AddAlumniFormProps) {
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+              disabled={loading}
+              className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition disabled:opacity-50"
             >
               Cancel
             </button>
