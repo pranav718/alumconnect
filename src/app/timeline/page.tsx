@@ -56,7 +56,7 @@ export default async function CareerTimeline() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <div className="flex items-center gap-3 mb-2">
-              <Calendar className="w-8 h-8 text-blue-500" />
+              <Calendar className="w-8 h-8 text-green-700" />
               <div>
                 <p className="text-gray-500 text-sm">Avg Years Since Graduation</p>
                 <p className="text-2xl font-bold">{stats.avgYearsSinceGrad} years</p>
@@ -104,7 +104,7 @@ export default async function CareerTimeline() {
               .map(([batch, batchAlumni]) => (
                 <div key={batch} className="relative flex items-start mb-8">
                   {/* Timeline dot */}
-                  <div className="absolute left-6 w-4 h-4 bg-blue-500 rounded-full border-4 border-white z-10"></div>
+                  <div className="absolute left-6 w-4 h-4 bg-green-700 rounded-full border-4 border-white z-10"></div>
                   
                   {/* Content */}
                   <div className="ml-16">
@@ -148,7 +148,7 @@ export default async function CareerTimeline() {
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 
-                      className="bg-blue-500 h-2 rounded-full transition-all duration-500"
+                      className="bg-green-700 h-2 rounded-full transition-all duration-500"
                       style={{ width: `${(alumni.length / stats.alumni.length) * 100}%` }}
                     ></div>
                   </div>
