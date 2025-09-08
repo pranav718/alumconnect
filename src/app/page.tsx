@@ -94,15 +94,15 @@ export default function HomePage() {
   ]
 
   const statsData = [
-    { icon: Users, value: stats.totalAlumni, label: "Active Alumni", color: "text-blue-600" },
+  { icon: Users, value: stats.totalAlumni, label: "Active Alumni", color: "text-green-700" },
     { icon: Building2, value: stats.totalCompanies, label: "Companies Represented", color: "text-green-600" },
     { icon: MapPin, value: stats.totalLocations, label: "Global Locations", color: "text-purple-600" }
   ]
 
   return (
-    <div className="min-h-screen">
+  <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-600 to-blue-800 text-white overflow-hidden">
+  <section className="relative bg-gradient-to-br from-green-700 to-green-800 text-white overflow-hidden">
         <div className="absolute inset-0 bg-grid-white/[0.05] bg-[size:20px_20px]" />
         <motion.div 
           initial={{ opacity: 0 }}
@@ -120,7 +120,7 @@ export default function HomePage() {
             <motion.p 
               {...fadeInUp}
               transition={{ delay: 0.2 }}
-              className="text-lg sm:text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto px-4"
+              className="text-lg sm:text-xl md:text-2xl text-green-100 max-w-3xl mx-auto px-4"
             >
               Join our thriving alumni community and unlock opportunities across the globe
             </motion.p>
@@ -129,12 +129,12 @@ export default function HomePage() {
               transition={{ delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4"
             >
-              <Button asChild size="lg" className="w-full sm:w-auto bg-white text-blue-600 hover:bg-gray-100">
+              <Button asChild size="lg" className="w-full sm:w-auto bg-white text-green-700 hover:bg-gray-100">
                 <Link href="/directory" className="flex items-center gap-2">
                   Explore Alumni Directory <ArrowRight className="w-5 h-5" />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="w-full sm:w-auto border-white text-blue-600 hover:bg-white hover:text-blue-600">
+              <Button asChild size="lg" variant="outline" className="w-full sm:w-auto border-white text-green-700 hover:bg-white hover:text-green-700">
                 <Link href="/map" className="flex items-center gap-2">
                   <Globe className="w-5 h-5" /> View Global Network
                 </Link>
@@ -240,7 +240,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-700 py-12 sm:py-16 lg:py-20">
+  <section className="bg-gradient-to-r from-green-700 to-green-800 py-12 sm:py-16 lg:py-20">
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -251,14 +251,14 @@ export default function HomePage() {
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
             Ready to Connect with Your Alumni Network?
           </h2>
-          <p className="text-lg sm:text-xl text-blue-100 mb-8">
+          <p className="text-lg sm:text-xl text-green-100 mb-8">
             Join thousands of alumni who are already benefiting from our platform
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button asChild size="lg" className="w-full sm:w-auto bg-white text-blue-600 hover:bg-gray-100">
+            <Button asChild size="lg" className="w-full sm:w-auto bg-white text-green-700 hover:bg-gray-100">
               <Link href="/login">Get Started Now</Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto border-white text-blue-600 hover:bg-white hover:text-blue-600">
+            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto border-white text-green-700 hover:bg-white hover:text-green-700">
               <Link href="/directory">Browse Alumni</Link>
             </Button>
           </div>
@@ -270,7 +270,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center sm:text-left">
-              <h3 className="text-white font-bold text-lg mb-4">AlumConnect</h3>
+              <h3 className="text-green-700 dark:text-white font-bold text-lg mb-4">GradLink</h3>
               <p className="text-sm">Connecting alumni worldwide for professional growth and opportunities.</p>
             </div>
             <div className="text-center sm:text-left">
@@ -300,14 +300,14 @@ export default function HomePage() {
                   placeholder="Your email"
                   className="flex-1 bg-gray-800 border-gray-700 text-white placeholder-gray-400"
                 />
-                <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
+                <Button type="submit" className="bg-green-700 hover:bg-green-800">
                   Subscribe
                 </Button>
               </form>
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
-            <p>&copy; 2024 AlumConnect. All rights reserved.</p>
+            <p className="text-green-700 dark:text-white">&copy; 2024 GradLink. All rights reserved.</p>
           </div>
         </div>
       </footer>

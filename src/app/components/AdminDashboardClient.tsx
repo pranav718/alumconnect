@@ -37,7 +37,7 @@ export default function AdminDashboardClient({ stats }: AdminDashboardClientProp
             <h1 className="text-3xl font-bold">Admin Dashboard</h1>
             <button
               onClick={() => setShowAddForm(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center gap-2"
+              className="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition flex items-center gap-2"
             >
               <UserPlus className="w-5 h-5" />
               Add New Alumni
@@ -52,7 +52,7 @@ export default function AdminDashboardClient({ stats }: AdminDashboardClientProp
                   <p className="text-gray-500 text-sm">Total Alumni</p>
                   <p className="text-3xl font-bold">{stats.totalAlumni}</p>
                 </div>
-                <Users className="w-12 h-12 text-blue-500" />
+                <Users className="w-12 h-12 text-green-700" />
               </div>
             </div>
             
@@ -83,7 +83,7 @@ export default function AdminDashboardClient({ stats }: AdminDashboardClientProp
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <button
                 onClick={() => setShowAddForm(true)}
-                className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition flex flex-col items-center gap-2"
+                className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-green-700 hover:bg-green-50 transition flex flex-col items-center gap-2"
               >
                 <UserPlus className="w-8 h-8 text-gray-400" />
                 <span className="text-sm font-medium">Add Alumni</span>
@@ -174,7 +174,7 @@ export default function AdminDashboardClient({ stats }: AdminDashboardClientProp
                       <td className="py-2">
                         <a
                           href={`/alumni/${alumni.id}`}
-                          className="text-blue-600 hover:underline text-sm"
+                          className="text-green-700 hover:underline text-sm"
                         >
                           View Profile
                         </a>

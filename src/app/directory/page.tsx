@@ -69,7 +69,7 @@ export default async function DirectoryPage({ searchParams }: { searchParams: an
             <p className="text-gray-500 text-lg">No alumni found matching your criteria.</p>
             <button
               onClick={() => window.location.href = '/directory'}
-              className="mt-4 text-blue-600 hover:underline"
+              className="mt-4 text-green-700 hover:underline"
             >
               Clear all filters
             </button>
